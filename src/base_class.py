@@ -3,15 +3,61 @@
 import time
 from emo_logger import EmoLogger
 
+DEFAULT_LOGGING_FOLDER = '.logs'
+DEFAULT_APP_NAME = 'undefined'
+
+
 class BaseClass:
     """Base class to monitor all child method calls."""
 
+    def __init__(self,
+                 log_folder: str | None = None,
+                 app_name: str | None = None):
+        """Initialize the class with a logger."""
+        if log_folder is None:
+            self.log_folder = BaseClass.get_global_log_folder()
+        else:
+            self.log_folder = log_folder
+
+        if app_name is None:
+            self.app_name = BaseClass.get_global_app_name()
+        else:
+            self.app_name = app_name
+
+        if not hasattr(self, 'logger'):
+            self.logger = EmoLogger(
+                self.log_folder, self.app_name, log_level='INFO')
+        self.logger.set_stack_distance(3)
+
+    @staticmethod
+    def set_global_log_data(log_folder: str, app_name: str):
+        """Set the global log data for the class."""
+        BaseClass.log_folder = log_folder
+        BaseClass.app_name = app_name
+
+    @staticmethod
+    def get_global_log_folder() -> str:
+        """Get the global log folder."""
+        try:
+            return BaseClass.log_folder
+        except AttributeError:
+            BaseClass.log_folder = DEFAULT_LOGGING_FOLDER
+            return BaseClass.log_folder
+
+    @staticmethod
+    def get_global_app_name() -> str:
+        """Get the global app name."""
+        try:
+            return BaseClass.app_name
+        except AttributeError:
+            BaseClass.app_name = DEFAULT_APP_NAME
+            return BaseClass.app_name
+
     def __init_subclass__(cls, **kwargs):
+        """Initialize the subclass and wrap methods for monitoring."""
         super().__init_subclass__(**kwargs)
-        if hasattr(cls, 'logger'):
-            cls.logger = EmoLogger(cls.__name__, '')
         for attr_name, attr_value in cls.__dict__.items():
-            if callable(attr_value) and not attr_name.startswith("__"):
+            if callable(attr_value) and not attr_name.startswith("_"):
                 setattr(cls, attr_name, cls._monitor_function(attr_value))
 
     @staticmethod

@@ -116,18 +116,18 @@ class EmoLogger:
     TRACE_INT = DEBUG + 1
 
     def __init__(self,
-                 log_dir: str,
-                 log_name: str,
+                 log_folder: str,
+                 app_name: str,
                  log_level: int = DEBUG) -> None:
-        self.log_dir = log_dir
+        self.log_folder = log_folder
 
-        if (log_name is None) or (log_name == ''):
-            self.log_name = 'no_app_name'
+        if (app_name is None) or (app_name == ''):
+            self.app_name = 'no_app_name'
         else:
-            self.log_name = log_name
+            self.app_name = app_name
 
-        self.log_name = log_name
-        self.logger = getLogger(log_name)
+        self.app_name = app_name
+        self.logger = getLogger(app_name)
         self.logger.setLevel(log_level)
         self.formatter = Formatter(
             '%(levelemoji)s %(levelname)8s | '
@@ -160,7 +160,7 @@ class EmoLogger:
         self.last_message = None
         self.last_message_time = None
         self.stack_distance = 2
-    
+
     def set_stack_distance(self, stack_distance: int) -> None:
         """Set the stack distance for the logger."""
         self.stack_distance = stack_distance
@@ -232,14 +232,14 @@ class EmoLogger:
         now = strftime('%H:%M:%S')
         self.last_message_time = time()
         level_name = logging.getLevelName(int(level))
-        
+
         if level_name in ('START', 'END', 'DONE'):
             level_filename = 'PROCESS'
         else:
             level_filename = level_name
-        
+
         emo = getattr(EmoFilter(), f'emo_{level_name}')
-        folder_name = f'{self.log_dir}/{self.log_name}/{date}'
+        folder_name = f'{self.log_folder}/{self.app_name}/{date}'
         if os.path.exists(folder_name) is False:
             os.makedirs(folder_name)
         filename = f'{folder_name}/{level_filename}.log'
