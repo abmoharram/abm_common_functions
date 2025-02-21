@@ -26,6 +26,7 @@ WORKDIR /app
 
 # Enable bytecode compilation
 ENV UV_COMPILE_BYTECODE=1
+ENV RUNNING_IN_DOCKER=true
 
 # Copy from the cache instead of linking since it's a mounted volume
 ENV UV_LINK_MODE=copy
@@ -39,6 +40,10 @@ RUN apt-get install make
 RUN apt-get install gcc
 RUN apt-get install curl
 RUN apt-get install dos2unix
+RUN apt-get install zsh -y
+
+RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+RUN chsh -s $(which zsh)
 
 ENV UV_LINK_MODE=copy
 
@@ -64,4 +69,4 @@ COPY .devcontainer/.zshrc /root/.zshrc
 
 # Download and extract Amazon Linux 2023 container
 WORKDIR /tmp
-
+RUN zsh

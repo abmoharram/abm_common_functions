@@ -56,7 +56,11 @@
 					"https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml",
 					"https://json.schemastore.org/github-action.json": ".github/workflows/*.yml"
 				},
-				"markdown-toc.anchorMode": "github.com"
+				"markdown-toc.anchorMode": "github.com",
+				// Edit July 2021 - New Updated Snippet
+				"terminal.integrated.defaultProfile.osx": "usr/bin/zsh",
+				// Now deprecated
+				"terminal.integrated.shell.osx": "usr/bin/zsh"
 			},
 			"extensions": [
 				"github.copilot",
