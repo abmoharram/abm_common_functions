@@ -3,8 +3,9 @@
 import time
 from emo_logger import EmoLogger
 
-DEFAULT_LOGGING_FOLDER = '.logs'
-DEFAULT_APP_NAME = 'undefined'
+DEFAULT_LOGGING_FOLDER = ".logs"
+DEFAULT_APP_NAME = "undefined"
+
 
 class BaseClass:
     """Base class to monitor all child method calls."""
@@ -21,9 +22,8 @@ class BaseClass:
         else:
             self.app_name = app_name
 
-        if not hasattr(self, 'logger'):
-            self.logger = EmoLogger(
-                self.log_folder, self.app_name, log_level='INFO')
+        if not hasattr(self, "logger"):
+            self.logger = EmoLogger(self.log_folder, self.app_name, log_level="INFO")
         self.logger.set_stack_distance(3)
 
     @staticmethod
@@ -60,9 +60,10 @@ class BaseClass:
     @staticmethod
     def _monitor_function(func):
         """Private method to monitor function execution time."""
+
         def wrapper(*args, **kwargs):
             start_time = time.time()
-            logger = args[0].logger if hasattr(args[0], 'logger') else None
+            logger = args[0].logger if hasattr(args[0], "logger") else None
             if logger:
                 logger.start(f"Starting '{func.__name__}'")
 
@@ -71,8 +72,11 @@ class BaseClass:
             end_time = time.time()
             if logger:
                 logger.end(f"Ending '{func.__name__}'")
-                logger.done(f"Execution time for '{func.__name__}': "
-                            f"{end_time - start_time:.4f} seconds")
+                logger.done(
+                    f"Execution time for '{func.__name__}': "
+                    f"{end_time - start_time:.4f} seconds"
+                )
 
             return result
+
         return wrapper

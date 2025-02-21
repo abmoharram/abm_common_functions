@@ -4,9 +4,17 @@ from sys import stdout
 from time import strftime, time
 
 import logging
-from logging import (getLogger, Formatter, StreamHandler,
-                     DEBUG, Filter, INFO, CRITICAL,
-                     ERROR, WARNING)
+from logging import (
+    getLogger,
+    Formatter,
+    StreamHandler,
+    DEBUG,
+    Filter,
+    INFO,
+    CRITICAL,
+    ERROR,
+    WARNING,
+)
 from typing import Mapping
 
 
@@ -32,50 +40,50 @@ class EmoFilter(Filter):
         filter: Filter the log message.
     """
 
-    emo_DONE = '✅'
-    emo_ERROR = '❌'
-    emo_CRITICAL = '🚨'
-    emo_WARNING = '⚠️'
-    emo_INFO = '💁'
-    emo_DEBUG = '🐞'
-    emo_START = '🚀'
-    emo_END = '🎉'
-    emo_UNKNOWN = '❓'
-    emo_TRACE = '🔍'
+    emo_DONE = "✅"
+    emo_ERROR = "❌"
+    emo_CRITICAL = "🚨"
+    emo_WARNING = "⚠️"
+    emo_INFO = "💁"
+    emo_DEBUG = "🐞"
+    emo_START = "🚀"
+    emo_END = "🎉"
+    emo_UNKNOWN = "❓"
+    emo_TRACE = "🔍"
 
     def filter(self, record):
-        if record.levelname == 'DEBUG':
+        if record.levelname == "DEBUG":
             record.levelemoji = self.emo_DEBUG
-        elif record.levelname == 'INFO':
+        elif record.levelname == "INFO":
             record.levelemoji = self.emo_INFO
-        elif record.levelname == 'WARNING':
+        elif record.levelname == "WARNING":
             record.levelemoji = self.emo_WARNING
-        elif record.levelname == 'ERROR':
+        elif record.levelname == "ERROR":
             record.levelemoji = self.emo_ERROR
-        elif record.levelname == 'CRITICAL':
+        elif record.levelname == "CRITICAL":
             record.levelemoji = self.emo_CRITICAL
-        elif record.levelname == 'DONE':
+        elif record.levelname == "DONE":
             record.levelemoji = self.emo_DONE
-        elif record.levelname == 'START':
+        elif record.levelname == "START":
             record.levelemoji = self.emo_START
-        elif record.levelname == 'END':
+        elif record.levelname == "END":
             record.levelemoji = self.emo_END
-        elif record.levelname == 'TRACE':
+        elif record.levelname == "TRACE":
             record.levelemoji = self.emo_TRACE
         else:
             record.levelemoji = self.emo_UNKNOWN
 
         if len(record.filename) > 25:
-            record.filename = '..' + record.filename[-23:]
+            record.filename = ".." + record.filename[-23:]
         return True
 
 
 class EmoLogger:
     """ABM customer logger class.
-    
+
     This class is used to create a custom logger for the ABM-MLPL project.
     The logger will add a custom log level to the logger.
-    
+
     Attributes:
         DONE_INT (int): The integer value for the DONE log level.
         ERROR_INT (int): The integer value for the ERROR log level.
@@ -87,7 +95,7 @@ class EmoLogger:
         END_INT (int): The integer value for the END log level.
         UNKNOWN_INT (int): The integer value for the UNKNOWN log level.
         TRACE_INT (int): The integer value for the TRACE log level.
-        
+
     Methods:
         __init__: Initialize the logger.
         trace: Log a message with the TRACE log level.
@@ -104,6 +112,7 @@ class EmoLogger:
         write_message: Write the log message to the log file.
         _log: Log a message with the given log level.
         close: Close the logger."""
+
     DONE_INT = INFO + 3
     ERROR_INT = ERROR
     CRITICAL_INT = CRITICAL
@@ -115,14 +124,11 @@ class EmoLogger:
     UNKNOWN_INT = INFO + 5
     TRACE_INT = DEBUG + 1
 
-    def __init__(self,
-                 log_folder: str,
-                 app_name: str,
-                 log_level: int = DEBUG) -> None:
+    def __init__(self, log_folder: str, app_name: str, log_level: int = DEBUG) -> None:
         self.log_folder = log_folder
 
-        if (app_name is None) or (app_name == ''):
-            self.app_name = 'no_app_name'
+        if (app_name is None) or (app_name == ""):
+            self.app_name = "no_app_name"
         else:
             self.app_name = app_name
 
@@ -130,10 +136,11 @@ class EmoLogger:
         self.logger = getLogger(app_name)
         self.logger.setLevel(log_level)
         self.formatter = Formatter(
-            '%(levelemoji)s %(levelname)8s | '
-            '%(asctime)s | %(name)s | '
-            '%(filename)25s:%(lineno)5d | %(funcName)s() '
-            '- %(message)s')
+            "%(levelemoji)s %(levelname)8s | "
+            "%(asctime)s | %(name)s | "
+            "%(filename)25s:%(lineno)5d | %(funcName)s() "
+            "- %(message)s"
+        )
 
         self.logger.addFilter(EmoFilter())
         self.stream_handler = StreamHandler(stdout)
@@ -141,11 +148,11 @@ class EmoLogger:
         if not self.logger.hasHandlers():
             self.logger.addHandler(self.stream_handler)
 
-        logging.addLevelName(self.START_INT, 'START')
-        logging.addLevelName(self.END_INT, 'END')
-        logging.addLevelName(self.DONE_INT, 'DONE')
-        logging.addLevelName(self.UNKNOWN_INT, 'UNKNOWN')
-        logging.addLevelName(self.TRACE_INT, 'TRACE')
+        logging.addLevelName(self.START_INT, "START")
+        logging.addLevelName(self.END_INT, "END")
+        logging.addLevelName(self.DONE_INT, "DONE")
+        logging.addLevelName(self.UNKNOWN_INT, "UNKNOWN")
+        logging.addLevelName(self.TRACE_INT, "TRACE")
         self.logger.trace = self.trace
         self.logger.done = self.done
         self.logger.start = self.start
@@ -219,50 +226,58 @@ class EmoLogger:
         """Check if the logger is enabled for the given level."""
         return self.logger.isEnabledFor(level)
 
-    def write_message(self,
-                      level: int,
-                      msg: object,
-                      args: logging._ArgsType,
-                      exc_info: logging._ExcInfoType = None,
-                      extra: Mapping[str, object] | None = None,
-                      stack_info: bool = False,
-                      stacklevel: int = 1,) -> None:
+    def write_message(
+        self,
+        level: int,
+        msg: object,
+        args: logging._ArgsType,
+        exc_info: logging._ExcInfoType = None,
+        extra: Mapping[str, object] | None = None,
+        stack_info: bool = False,
+        stacklevel: int = 1,
+    ) -> None:
         """Write the log message to the log file."""
-        date = strftime('%Y-%m-%d')
-        now = strftime('%H:%M:%S')
+        date = strftime("%Y-%m-%d")
+        now = strftime("%H:%M:%S")
         self.last_message_time = time()
         level_name = logging.getLevelName(int(level))
 
-        if level_name in ('START', 'END', 'DONE'):
-            level_filename = 'PROCESS'
+        if level_name in ("START", "END", "DONE"):
+            level_filename = "PROCESS"
         else:
             level_filename = level_name
 
-        emo = getattr(EmoFilter(), f'emo_{level_name}')
-        folder_name = f'{self.log_folder}/{self.app_name}/{date}'
+        emo = getattr(EmoFilter(), f"emo_{level_name}")
+        folder_name = f"{self.log_folder}/{self.app_name}/{date}"
         if os.path.exists(folder_name) is False:
             os.makedirs(folder_name)
-        filename = f'{folder_name}/{level_filename}.log'
+        filename = f"{folder_name}/{level_filename}.log"
 
-        with open(filename, 'a', encoding='UTF-8') as file:
-            file.write(f'{emo} {now} | {level_name} | {msg} | {args} | '
-                       f'{exc_info} | {extra} | {stack_info} | {stacklevel}\n')
+        with open(filename, "a", encoding="UTF-8") as file:
+            file.write(
+                f"{emo} {now} | {level_name} | {msg} | {args} | "
+                f"{exc_info} | {extra} | {stack_info} | {stacklevel}\n"
+            )
 
-    def _log(self,
-             level: int,
-             msg: object,
-             args: logging._ArgsType,
-             exc_info: logging._ExcInfoType = None,
-             extra: Mapping[str, object] | None = None,
-             stack_info: bool = False,
-             stacklevel: int = 1,):
+    def _log(
+        self,
+        level: int,
+        msg: object,
+        args: logging._ArgsType,
+        exc_info: logging._ExcInfoType = None,
+        extra: Mapping[str, object] | None = None,
+        stack_info: bool = False,
+        stacklevel: int = 1,
+    ):
         """Log 'message' with severity 'TRACE'."""
         self.last_message = msg
 
         if self.logger is None:
             return
         else:
-            self.write_message(level, msg, args, exc_info, extra, stack_info, stacklevel)
+            self.write_message(
+                level, msg, args, exc_info, extra, stack_info, stacklevel
+            )
 
         self.logger.log(
             level=level,
@@ -271,7 +286,8 @@ class EmoLogger:
             exc_info=exc_info,
             extra=extra,
             stack_info=stack_info,
-            stacklevel=stacklevel + self.stack_distance)
+            stacklevel=stacklevel + self.stack_distance,
+        )
 
     def close(self):
         """close _summary_"""
