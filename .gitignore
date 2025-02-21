@@ -5,9 +5,10 @@ build/
 dist/
 wheels/
 *.egg-info
-!.devcontainer/
 
 # Virtual environments
 .venv
 .*/*
 *.ipynb
+
+!.devcontainer/*.*

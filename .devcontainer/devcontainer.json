@@ -1,0 +1,81 @@
+{
+	"name": "Python 3 with Jupyter",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": "..",
+		"args": {
+			"VARIANT": "3.10",
+			"INSTALL_JUPYTER": "true"
+		}
+	},
+	"mounts": [
+    "type=bind,source=${localEnv:USERPROFILE}\\.ssh,target=/root/.ssh,readonly",
+    "type=bind,source=${localEnv:USERPROFILE}\\.aws,target=/root/.aws,readonly"],
+
+	"containerEnv": {
+		"PYRIGHT_PYTHON_PYLANCE_VERSION": "2024.11.3"
+	},
+	"postCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder} && uv sync && uv run pre-commit install --hook-type commit-msg",
+	// "overrideCommand": false,
+	"remoteUser": "root",
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"editor.codeActionsOnSave": {
+					"source.organizeImports": "explicit"
+				},
+				"editor.formatOnSave": true,
+				"editor.insertSpaces": true,
+				"editor.formatOnType": false,
+				"editor.inlineSuggest.enabled": true,
+				"editor.minimap.enabled": false,
+				"editor.tabSize": 2,
+				"files.insertFinalNewline": true,
+				"python.analysis.autoFormatStrings": true,
+				"python.analysis.autoImportCompletions": true,
+				"python.analysis.typeCheckingMode": "strict",
+				"python.languageServer": "Pylance",
+				"python.terminal.activateEnvironment": false,
+				"python.testing.pytestArgs": [
+					"tests"
+				],
+				"python.testing.pytestEnabled": true,
+				"jupyter.askForKernelRestart": false,
+				"jupyter.debugJustMyCode": true,
+				"jupyter.disableJupyterAutoStart": true,
+				"notebook.editorOptionsCustomizations": {
+					"editor.tabSize": 4,
+					"editor.indentSize": 4,
+					"editor.insertSpaces": true
+				},
+				"notebook.lineNumbers": "on",
+				"notebook.lineNumbersMinChars": 3,
+				"notebook.scrolling.revealNextCellOnExecute": "firstLine",
+				"yaml.validate": true,
+				"yaml.schemas": {
+					"https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml",
+					"https://json.schemastore.org/github-action.json": ".github/workflows/*.yml"
+				},
+				"markdown-toc.anchorMode": "github.com"
+			},
+			"extensions": [
+				"github.copilot",
+				"ms-python.python",
+				"ms-toolsai.jupyter",
+				"xelad0m.jupyter-toc",
+				"christian-kohler.path-intellisense",
+				"usernamehw.errorlens",
+				"kevinrose.vsc-python-indent",
+				"njpwerner.autodocstring",
+				"hongquann.dragon-jinja",
+				"charliermarsh.ruff",
+				"esbenp.prettier-vscode",
+				"visualstudioexptteam.vscodeintellicode",
+				"huntertran.auto-markdown-toc",
+				"redhat.vscode-yaml",
+				"ms-vscode.makefile-tools",
+				"eamodio.gitlens"
+			]
+		}
+	}
+}
