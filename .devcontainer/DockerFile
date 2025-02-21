@@ -1,0 +1,66 @@
+FROM public.ecr.aws/sagemaker/sagemaker-distribution:latest-cpu
+
+ARG RYE_VER="0.39.0"
+ARG UV_VER="0.3.0"
+ARG VENV_DIR="/tmp/foo/venvs"
+ARG VENV_NAME="venv-3-11"
+ARG PYTHON_VERSION="3.11"
+ENV UV_PYTHON_INSTALL_DIR="/tmp/uv"
+
+USER root
+
+
+RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates
+
+# Download the latest installer
+ADD https://astral.sh/uv/install.sh /uv-installer.sh
+
+# Run the installer then remove it
+RUN sh /uv-installer.sh && rm /uv-installer.sh
+
+# Ensure the installed binary is on the `PATH`
+ENV PATH="/root/.local/bin/:$PATH"
+
+
+# Install the project into `/app`
+WORKDIR /app
+
+# Enable bytecode compilation
+ENV UV_COMPILE_BYTECODE=1
+
+# Copy from the cache instead of linking since it's a mounted volume
+ENV UV_LINK_MODE=copy
+
+# Update packages and install dependencies
+RUN apt-get update 
+RUN apt-get install wget
+RUN apt-get install tar
+RUN apt-get install git
+RUN apt-get install make
+RUN apt-get install gcc
+RUN apt-get install curl
+RUN apt-get install dos2unix
+
+ENV UV_LINK_MODE=copy
+
+# Set Zsh as the default shell (alternative to usermod)
+RUN sed -i 's#/bin/ash#/bin/zsh#g' /etc/passwd
+
+# Install Zsh Plugins
+RUN git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+RUN git clone https://github.com/zsh-users/zsh-autosuggestions /root/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+
+# Install Starship Prompt
+RUN curl -fsSL https://starship.rs/install.sh | sh -s -- -y
+RUN mkdir -p ~/.config && touch ~/.config/starship.toml
+RUN starship preset no-nerd-font > ~/.config/starship.toml
+
+# Ensure scripts work properly on Windows (convert line endings)
+RUN find /root/.oh-my-zsh/custom/plugins -type f -exec dos2unix {} +
+
+# Copy custom Zsh config (uncomment if needed)
+# COPY .devcontainer/.zshrc /root/.zshrc
+
+# Download and extract Amazon Linux 2023 container
+WORKDIR /tmp
+
