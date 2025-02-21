@@ -4,7 +4,7 @@ from typing import Any
 import time
 from base_class import BaseClass
 
-
+ 
 class DictIO(BaseClass):
     def __init__(self, filepath: str, load: bool = True):
         """Initialize the class with a filepath and load the data if it exists."""
