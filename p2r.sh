@@ -7,6 +7,9 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
+ruff check
+ruff format
+
 # Run Git commands
 git add .
 git commit -m "$1"

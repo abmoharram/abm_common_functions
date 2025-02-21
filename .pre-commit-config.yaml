@@ -16,7 +16,7 @@ repos:
         types_or: [ python, pyi ]
         args: [ --fix,  --show-fixes]
       - id: ruff-format
-        description: "Check code for style and lint issues"      
+        description: "Check code for style and lint issues"
         types_or: [ python, pyi ]
 
   - repo: https://github.com/RobertCraigie/pyright-python
