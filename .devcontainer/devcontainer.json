@@ -15,7 +15,7 @@
 	"containerEnv": {
 		"PYRIGHT_PYTHON_PYLANCE_VERSION": "2024.11.3"
 	},
-	"postCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder} && uv sync && uv run pre-commit-configuration.yaml install --hook-type commit-msg",
+	"postCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder} && uv sync && uv run pre-commit install --hook-type commit-msg",
 	// "overrideCommand": false,
 	"remoteUser": "root",
 	"customizations": {
