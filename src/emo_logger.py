@@ -255,8 +255,7 @@ class EmoLogger:
 
         with open(filename, "a", encoding="UTF-8") as file:
             file.write(
-                f"{emo} {now} | {level_name} | {msg} | {args} | "
-                f"{exc_info} | {extra} | {stack_info} | {stacklevel}\n"
+                f"{emo} {now} | {level_name} | {msg} | {args} | {exc_info} | {extra} | {stack_info} | {stacklevel}\n"
             )
 
     def _log(
@@ -275,9 +274,7 @@ class EmoLogger:
         if self.logger is None:
             return
         else:
-            self.write_message(
-                level, msg, args, exc_info, extra, stack_info, stacklevel
-            )
+            self.write_message(level, msg, args, exc_info, extra, stack_info, stacklevel)
 
         self.logger.log(
             level=level,

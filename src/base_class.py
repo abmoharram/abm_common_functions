@@ -72,10 +72,7 @@ class BaseClass:
             end_time = time.time()
             if logger:
                 logger.end(f"Ending '{func.__name__}'")
-                logger.done(
-                    f"Execution time for '{func.__name__}': "
-                    f"{end_time - start_time:.4f} seconds"
-                )
+                logger.done(f"Execution time for '{func.__name__}': {end_time - start_time:.4f} seconds")
 
             return result
 
