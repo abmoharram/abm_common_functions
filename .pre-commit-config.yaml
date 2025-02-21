@@ -1,13 +1,16 @@
 repos:
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.8.0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+  # Ruff version.
+    rev: v0.9.7
     hooks:
       - id: ruff
-        description: "Apply ruff linting"
-        language: python
-        args: [--fix]
+        description: "Check code for style and lint issues"
+        language: python 
+        types_or: [ python, pyi ]
+        args: [ --fix ]
       - id: ruff-format
-        description: "Apply ruff formatting"
+        description: "Check code for style and lint issues"      
+        types_or: [ python, pyi ]
 
   - repo: https://github.com/RobertCraigie/pyright-python
     rev: v1.1.389
