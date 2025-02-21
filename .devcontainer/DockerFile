@@ -9,7 +9,6 @@ ENV UV_PYTHON_INSTALL_DIR="/tmp/uv"
 
 USER root
 
-
 RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates
 
 # Download the latest installer
@@ -59,7 +58,7 @@ RUN starship preset no-nerd-font > ~/.config/starship.toml
 RUN find /root/.oh-my-zsh/custom/plugins -type f -exec dos2unix {} +
 
 # Copy custom Zsh config (uncomment if needed)
-# COPY .devcontainer/.zshrc /root/.zshrc
+COPY .devcontainer/.zshrc /root/.zshrc
 
 # Download and extract Amazon Linux 2023 container
 WORKDIR /tmp
