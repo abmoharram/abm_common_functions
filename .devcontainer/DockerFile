@@ -44,6 +44,8 @@ ENV UV_LINK_MODE=copy
 
 # Set Zsh as the default shell (alternative to usermod)
 RUN sed -i 's#/bin/ash#/bin/zsh#g' /etc/passwd
+RUN git config --global user.email "abmoharram@gmail.com"
+RUN git config --global user.name "Ahmed Bahaaeddin Moharram"
 
 # Install Zsh Plugins
 RUN git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
