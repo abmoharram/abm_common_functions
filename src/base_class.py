@@ -9,9 +9,7 @@ DEFAULT_APP_NAME = 'undefined'
 class BaseClass:
     """Base class to monitor all child method calls."""
 
-    def __init__(self,
-                 log_folder: str | None = None,
-                 app_name: str | None = None):
+    def __init__(self, log_folder: str | None = None, app_name: str | None = None):
         """Initialize the class with a logger."""
         if log_folder is None:
             self.log_folder = BaseClass.get_global_log_folder()
