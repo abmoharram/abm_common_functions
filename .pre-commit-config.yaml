@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0  # the release, git tag, or commit you want to use
+    rev: v4.5.0
     hooks:
       - id: check-toml
       - id: check-yaml
@@ -14,7 +14,7 @@ repos:
         description: "Check code for style and lint issues"
         language: python 
         types_or: [ python, pyi ]
-        args: [ --fix ]
+        args: [ --fix,  --show-fixes]
       - id: ruff-format
         description: "Check code for style and lint issues"      
         types_or: [ python, pyi ]
