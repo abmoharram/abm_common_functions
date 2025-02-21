@@ -78,7 +78,8 @@
 				"huntertran.auto-markdown-toc",
 				"redhat.vscode-yaml",
 				"ms-vscode.makefile-tools",
-				"eamodio.gitlens"
+				"eamodio.gitlens",
+				"ms-pyright.pyright"
 			]
 		}
 	}
