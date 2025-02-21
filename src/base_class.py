@@ -6,7 +6,6 @@ from emo_logger import EmoLogger
 DEFAULT_LOGGING_FOLDER = '.logs'
 DEFAULT_APP_NAME = 'undefined'
 
-
 class BaseClass:
     """Base class to monitor all child method calls."""
 
