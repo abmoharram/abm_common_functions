@@ -13,4 +13,10 @@ dev = [
     "ipykernel>=6.29.5",
     "pre-commit>=4.1.0",
     "pytest>=8.3.4",
+    "setuptools>=75.8.0",
+    "twine>=6.1.0",
+    "wheel>=0.45.1",
 ]
+
+[tool.uv.workspace]
+members = ["lib"]

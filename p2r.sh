@@ -3,7 +3,7 @@
 # Check if a commit message is provided
 if [ -z "$1" ]; then
     echo "Error: No commit message provided."
-    echo "Usage: ./git_push.sh \"Your commit message\""
+    echo "Usage: ./p2r.sh \"Your commit message\""
     exit 1
 fi
 

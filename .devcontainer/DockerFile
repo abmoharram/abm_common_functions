@@ -61,6 +61,11 @@ RUN curl -fsSL https://starship.rs/install.sh | sh -s -- -y
 RUN mkdir -p ~/.config && touch ~/.config/starship.toml
 RUN starship preset no-nerd-font > ~/.config/starship.toml
 
+ENV HISTSIZE=2000
+ENV HISTFILE="$HOME/.history"
+ENV SAVEHIST="$HISTSIZE"
+
+
 # Ensure scripts work properly on Windows (convert line endings)
 RUN find /root/.oh-my-zsh/custom/plugins -type f -exec dos2unix {} +
 

@@ -1,5 +1,5 @@
 {
-	"name": "Python 3 with Jupyter",
+	"name": "Python 3 Dev Container",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"context": "..",
@@ -34,11 +34,9 @@
 				"python.analysis.autoFormatStrings": true,
 				"python.analysis.autoImportCompletions": true,
 				"python.analysis.typeCheckingMode": "strict",
-				"python.languageServer": "Pylance",
+				"python.languageServer": "Default",
 				"python.terminal.activateEnvironment": false,
-				"python.testing.pytestArgs": [
-					"tests"
-				],
+				"python.testing.pytestArgs": ["tests"],
 				"python.testing.pytestEnabled": true,
 				"jupyter.askForKernelRestart": false,
 				"jupyter.debugJustMyCode": true,

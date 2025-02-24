@@ -1,21 +1,23 @@
 from __future__ import annotations
-import os
-from sys import stdout
-from time import strftime, time
 
 import logging
+import os
 from logging import (
-    getLogger,
+    CRITICAL,
+    DEBUG,
+    ERROR,
+    INFO,
+    WARNING,
+    Filter,
     Formatter,
     StreamHandler,
-    DEBUG,
-    Filter,
-    INFO,
-    CRITICAL,
-    ERROR,
-    WARNING,
+    _ArgsType,  # type: ignore
+    _ExcInfoType,  # type: ignore
+    getLogger,
 )
-from typing import Mapping
+from sys import stdout
+from time import strftime, time
+from typing import Any, Literal, Mapping
 
 
 class EmoFilter(Filter):
@@ -51,7 +53,10 @@ class EmoFilter(Filter):
     emo_UNKNOWN = "❓"
     emo_TRACE = "🔍"
 
-    def filter(self, record):
+    def filter(self, record: object) -> bool:
+        """Filter the log message."""
+        record.levelemoji = None
+        
         if record.levelname == "DEBUG":
             record.levelemoji = self.emo_DEBUG
         elif record.levelname == "INFO":
@@ -124,7 +129,7 @@ class EmoLogger:
     UNKNOWN_INT = INFO + 5
     TRACE_INT = DEBUG + 1
 
-    def __init__(self, log_folder: str, app_name: str, log_level: int = DEBUG) -> None:
+    def __init__(self, log_folder: str, app_name: str | None, log_level: int = DEBUG) -> None:
         self.log_folder = log_folder
 
         if (app_name is None) or (app_name == ""):
@@ -153,16 +158,16 @@ class EmoLogger:
         logging.addLevelName(self.DONE_INT, "DONE")
         logging.addLevelName(self.UNKNOWN_INT, "UNKNOWN")
         logging.addLevelName(self.TRACE_INT, "TRACE")
-        self.logger.trace = self.trace
-        self.logger.done = self.done
-        self.logger.start = self.start
-        self.logger.end = self.end
-        self.logger.unknown = self.unknown
-        self.logger.debug = self.debug
-        self.logger.info = self.info
-        self.logger.warning = self.warning
-        self.logger.error = self.error
-        self.logger.critical = self.critical
+        self.logger.trace = self.trace          # type: ignore
+        self.logger.done = self.done            # type: ignore
+        self.logger.start = self.start          # type: ignore
+        self.logger.end = self.end              # type: ignore
+        self.logger.unknown = self.unknown      # type: ignore
+        self.logger.debug = self.debug          # type: ignore
+        self.logger.info = self.info            # type: ignore
+        self.logger.warning = self.warning      # type: ignore
+        self.logger.error = self.error          # type: ignore
+        self.logger.critical = self.critical    # type: ignore
 
         self.last_message = None
         self.last_message_time = None
@@ -172,66 +177,68 @@ class EmoLogger:
         """Set the stack distance for the logger."""
         self.stack_distance = stack_distance
 
-    def trace(self, message, *args, **kws):
+    def trace(self, message: str, *args: _ArgsType) -> None:
         """Log 'message' with severity 'TRACE'."""
         if self.is_enabled_for(self.TRACE_INT):
-            self._log(self.TRACE_INT, message, args, **kws)
+            self._log(self.TRACE_INT, message, args)
 
-    def done(self, message, *args, **kws):
+    def done(self, message: str, *args: _ArgsType) -> None:
         """Log 'message' with severity 'DONE'."""
         if self.is_enabled_for(self.DONE_INT):
-            self._log(self.DONE_INT, message, args, **kws)
+            self._log(self.DONE_INT, message, args)
 
-    def start(self, message, *args, **kws):
+    def start(self, message: str, *args: _ArgsType) -> None:
         """Log 'message' with severity 'START'."""
         if self.is_enabled_for(self.START_INT):
-            self._log(self.START_INT, message, args, **kws)
+            self._log(self.START_INT, message, args)
 
-    def end(self, message, *args, **kws):
+    def end(self, message: str, *args: _ArgsType) -> None:
         """Log 'message' with severity 'END'."""
         if self.is_enabled_for(self.END_INT):
-            self._log(self.END_INT, message, args, **kws)
+            self._log(self.END_INT, message, args)
 
-    def unknown(self, message, *args, **kws):
+    def unknown(self, message: str, *args: _ArgsType) -> None:
         """Log 'message' with severity 'UNKNOWN'."""
         if self.is_enabled_for(self.UNKNOWN_INT):
-            self._log(self.UNKNOWN_INT, message, args, **kws)
+            self._log(self.UNKNOWN_INT, message, args)
 
-    def debug(self, message, *args, **kws):
+    def debug(self, message: str, *args: _ArgsType) -> None:
         """Log 'message' with severity 'DEBUG'."""
         if self.is_enabled_for(self.DEBUG_INT):
-            self._log(self.DEBUG_INT, message, args, **kws)
+            self._log(self.DEBUG_INT, message, args)
 
-    def info(self, message, *args, **kws):
+    def info(self, message: str, *args: _ArgsType) -> None:
         """Log 'message' with severity 'INFO'."""
         if self.is_enabled_for(self.INFO_INT):
-            self._log(self.INFO_INT, message, args, **kws)
+            self._log(self.INFO_INT, message, args)
 
-    def warning(self, message, *args, **kws):
+    def warning(self, message: str, *args: _ArgsType) -> None:
         """Log 'message' with severity 'WARNING'."""
         if self.is_enabled_for(self.WARNING_INT):
-            self._log(self.WARNING_INT, message, args, **kws)
+            self._log(self.WARNING_INT, message, args)
 
-    def error(self, message, *args, **kws):
+    def error(self, message: str, *args: _ArgsType) -> None:
         """Log 'message' with severity 'ERROR'."""
         if self.is_enabled_for(self.ERROR_INT):
-            self._log(self.ERROR_INT, message, args, **kws)
+            self._log(self.ERROR_INT, message, args)
 
-    def critical(self, message, *args, **kws):
+    def critical(self, message: str, *args: _ArgsType) -> None:
         """Log 'message' with severity 'CRITICAL'."""
         if self.is_enabled_for(self.CRITICAL_INT):
-            self._log(self.CRITICAL_INT, message, args, **kws)
+            self._log(self.CRITICAL_INT, message, args)
 
-    def is_enabled_for(self, level):
+    def is_enabled_for(self, level: int):
         """Check if the logger is enabled for the given level."""
+        if self.logger is None:
+            return False
         return self.logger.isEnabledFor(level)
 
     def write_message(
         self,
         level: int,
         msg: object,
-        args: logging._ArgsType,
-        exc_info: logging._ExcInfoType = None,
+        args: _ArgsType,
+        exc_info: _ExcInfoType = None,
         extra: Mapping[str, object] | None = None,
         stack_info: bool = False,
         stacklevel: int = 1,
@@ -262,8 +269,8 @@ class EmoLogger:
         self,
         level: int,
         msg: object,
-        args: logging._ArgsType,
-        exc_info: logging._ExcInfoType = None,
+        args: _ArgsType,
+        exc_info: _ExcInfoType = None,
         extra: Mapping[str, object] | None = None,
         stack_info: bool = False,
         stacklevel: int = 1,
@@ -288,7 +295,13 @@ class EmoLogger:
 
     def close(self):
         """close _summary_"""
-        self.logger.removeHandler(self.stream_handler)
+        if self.logger is None:
+            return
+
+        if self.stream_handler is None:
+            return
+        
+        self.logger.removeHandler(self.stream_handler)     
         self.stream_handler.close()
         self.logger = None
         self.formatter = None
