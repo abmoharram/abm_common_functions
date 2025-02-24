@@ -15,7 +15,7 @@ class DictIO(BaseClass):
             if os.path.exists(filepath):
                 self.load()
             else:
-                self.data : dict[str, Any] = {} 
+                self.data: dict[str, Any] = {}
                 self._set_first_timestamp()
 
     def _set_last_read_timestamp(self) -> None:

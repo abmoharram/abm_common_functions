@@ -56,7 +56,7 @@ class EmoFilter(Filter):
     def filter(self, record: object) -> bool:
         """Filter the log message."""
         record.levelemoji = None
-        
+
         if record.levelname == "DEBUG":
             record.levelemoji = self.emo_DEBUG
         elif record.levelname == "INFO":
@@ -158,16 +158,16 @@ class EmoLogger:
         logging.addLevelName(self.DONE_INT, "DONE")
         logging.addLevelName(self.UNKNOWN_INT, "UNKNOWN")
         logging.addLevelName(self.TRACE_INT, "TRACE")
-        self.logger.trace = self.trace          # type: ignore
-        self.logger.done = self.done            # type: ignore
-        self.logger.start = self.start          # type: ignore
-        self.logger.end = self.end              # type: ignore
-        self.logger.unknown = self.unknown      # type: ignore
-        self.logger.debug = self.debug          # type: ignore
-        self.logger.info = self.info            # type: ignore
-        self.logger.warning = self.warning      # type: ignore
-        self.logger.error = self.error          # type: ignore
-        self.logger.critical = self.critical    # type: ignore
+        self.logger.trace = self.trace  # type: ignore
+        self.logger.done = self.done  # type: ignore
+        self.logger.start = self.start  # type: ignore
+        self.logger.end = self.end  # type: ignore
+        self.logger.unknown = self.unknown  # type: ignore
+        self.logger.debug = self.debug  # type: ignore
+        self.logger.info = self.info  # type: ignore
+        self.logger.warning = self.warning  # type: ignore
+        self.logger.error = self.error  # type: ignore
+        self.logger.critical = self.critical  # type: ignore
 
         self.last_message = None
         self.last_message_time = None
@@ -300,8 +300,8 @@ class EmoLogger:
 
         if self.stream_handler is None:
             return
-        
-        self.logger.removeHandler(self.stream_handler)     
+
+        self.logger.removeHandler(self.stream_handler)
         self.stream_handler.close()
         self.logger = None
         self.formatter = None

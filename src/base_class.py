@@ -58,7 +58,7 @@ class BaseClass:
         super().__init_subclass__(**kwargs)
         for attr_name, attr_value in cls.__dict__.items():
             if callable(attr_value) and not attr_name.startswith("_"):
-                setattr(cls, attr_name, cls._monitor_function(attr_value)) # type: ignore
+                setattr(cls, attr_name, cls._monitor_function(attr_value))  # type: ignore
 
     @staticmethod
     def _monitor_function(func: Callable[..., dict[str, Any]]) -> Callable[..., dict[str, Any]]:
