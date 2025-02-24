@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 setup(
-    name='abm_common_functions',
+    name='abm_dommon_functions',
     packages=find_packages(include=['src']),
     version='0.1.0',
     description='ABM common_functions',
