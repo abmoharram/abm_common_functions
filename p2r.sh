@@ -9,7 +9,7 @@ fi
 
 ruff check
 ruff format
-
+sleep 1
 # Run Git commands
 git add .
 git commit -m "$1"
