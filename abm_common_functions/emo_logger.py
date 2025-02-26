@@ -11,13 +11,11 @@ from logging import (
     Filter,
     Formatter,
     StreamHandler,
-    _ArgsType,  # type: ignore
-    _ExcInfoType,  # type: ignore
     getLogger,
 )
 from sys import stdout
 from time import strftime, time
-from typing import Any, Literal, Mapping
+from typing import Mapping
 
 
 class EmoFilter(Filter):
@@ -177,52 +175,55 @@ class EmoLogger:
         """Set the stack distance for the logger."""
         self.stack_distance = stack_distance
 
-    def trace(self, message: str, *args: _ArgsType) -> None:
+    def template(self, msg, *args, **kwargs):
+        pass
+
+    def trace(self, message: str, *args: object) -> None:
         """Log 'message' with severity 'TRACE'."""
         if self.is_enabled_for(self.TRACE_INT):
             self._log(self.TRACE_INT, message, args)
 
-    def done(self, message: str, *args: _ArgsType) -> None:
+    def done(self, message: str, *args: object) -> None:
         """Log 'message' with severity 'DONE'."""
         if self.is_enabled_for(self.DONE_INT):
             self._log(self.DONE_INT, message, args)
 
-    def start(self, message: str, *args: _ArgsType) -> None:
+    def start(self, message: str, *args: object) -> None:
         """Log 'message' with severity 'START'."""
         if self.is_enabled_for(self.START_INT):
             self._log(self.START_INT, message, args)
 
-    def end(self, message: str, *args: _ArgsType) -> None:
+    def end(self, message: str, *args: object) -> None:
         """Log 'message' with severity 'END'."""
         if self.is_enabled_for(self.END_INT):
             self._log(self.END_INT, message, args)
 
-    def unknown(self, message: str, *args: _ArgsType) -> None:
+    def unknown(self, message: str, *args: object) -> None:
         """Log 'message' with severity 'UNKNOWN'."""
         if self.is_enabled_for(self.UNKNOWN_INT):
             self._log(self.UNKNOWN_INT, message, args)
 
-    def debug(self, message: str, *args: _ArgsType) -> None:
+    def debug(self, message: str, *args: object) -> None:
         """Log 'message' with severity 'DEBUG'."""
         if self.is_enabled_for(self.DEBUG_INT):
             self._log(self.DEBUG_INT, message, args)
 
-    def info(self, message: str, *args: _ArgsType) -> None:
+    def info(self, message: str, *args: object) -> None:
         """Log 'message' with severity 'INFO'."""
         if self.is_enabled_for(self.INFO_INT):
             self._log(self.INFO_INT, message, args)
 
-    def warning(self, message: str, *args: _ArgsType) -> None:
+    def warning(self, message: str, *args: object) -> None:
         """Log 'message' with severity 'WARNING'."""
         if self.is_enabled_for(self.WARNING_INT):
             self._log(self.WARNING_INT, message, args)
 
-    def error(self, message: str, *args: _ArgsType) -> None:
+    def error(self, message: str, *args: object) -> None:
         """Log 'message' with severity 'ERROR'."""
         if self.is_enabled_for(self.ERROR_INT):
             self._log(self.ERROR_INT, message, args)
 
-    def critical(self, message: str, *args: _ArgsType) -> None:
+    def critical(self, message: str, *args: object) -> None:
         """Log 'message' with severity 'CRITICAL'."""
         if self.is_enabled_for(self.CRITICAL_INT):
             self._log(self.CRITICAL_INT, message, args)
@@ -237,8 +238,8 @@ class EmoLogger:
         self,
         level: int,
         msg: object,
-        args: _ArgsType,
-        exc_info: _ExcInfoType = None,
+        args: object,
+        exc_info: object = None,
         extra: Mapping[str, object] | None = None,
         stack_info: bool = False,
         stacklevel: int = 1,
@@ -269,8 +270,8 @@ class EmoLogger:
         self,
         level: int,
         msg: object,
-        args: _ArgsType,
-        exc_info: _ExcInfoType = None,
+        args: object,
+        exc_info: object = None,
         extra: Mapping[str, object] | None = None,
         stack_info: bool = False,
         stacklevel: int = 1,
@@ -287,7 +288,7 @@ class EmoLogger:
             level=level,
             msg=msg,
             *args,
-            exc_info=exc_info,
+            exc_info=exc_info,  # type: ignore
             extra=extra,
             stack_info=stack_info,
             stacklevel=stacklevel + self.stack_distance,

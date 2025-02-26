@@ -4,7 +4,7 @@ import time
 from logging import INFO
 from typing import Any, Callable
 
-from emo_logger import EmoLogger
+from abm_common_functions.emo_logger import EmoLogger
 
 DEFAULT_LOGGING_FOLDER = ".logs"
 DEFAULT_APP_NAME = "undefined"

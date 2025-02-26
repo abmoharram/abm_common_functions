@@ -3,7 +3,7 @@ import pickle
 import time
 from typing import Any
 
-from base_class import BaseClass
+from abm_common_functions.base_class import BaseClass
 
 
 class DictIO(BaseClass):

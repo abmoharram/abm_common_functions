@@ -1,6 +1,6 @@
 """Testing the EmoLogger class."""
 
-from emo_logger import EmoLogger
+from abm_common_functions.emo_logger import EmoLogger
 
 
 def test_emo_logger_init():

@@ -1,4 +1,4 @@
-from base_class import BaseClass
+from abm_common_functions.base_class import BaseClass
 
 
 class test_class(BaseClass):
